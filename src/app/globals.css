@@ -10,97 +10,90 @@
   }
   
   body {
-    @apply bg-cream-100 text-navy-600;
+    @apply bg-stone-50 text-stone-800;
   }
   
   ::selection {
-    @apply bg-saffron-500/30 text-navy-800;
+    @apply bg-stone-800 text-stone-50;
   }
 }
 
 @layer components {
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-saffron-500 via-saffron-600 to-saffron-500;
-    background-size: 200% 200%;
-    animation: gradient 8s ease infinite;
+  /* Typography */
+  .heading-display {
+    @apply font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal tracking-tight leading-[1.1];
+  }
+  
+  .heading-large {
+    @apply font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight leading-[1.15];
+  }
+  
+  .heading-medium {
+    @apply font-serif text-2xl sm:text-3xl font-normal tracking-tight leading-[1.2];
+  }
+  
+  .body-large {
+    @apply text-lg md:text-xl text-stone-600 leading-relaxed;
+  }
+  
+  .body-regular {
+    @apply text-base text-stone-600 leading-relaxed;
+  }
+  
+  .label {
+    @apply text-xs uppercase tracking-[0.2em] text-stone-500 font-medium;
+  }
+  
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium transition-all duration-300 ease-out;
   }
   
   .btn-primary {
-    @apply inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white 
-           bg-gradient-to-r from-saffron-500 to-saffron-600 rounded-full
-           shadow-lg shadow-saffron-500/30 
-           hover:shadow-xl hover:shadow-saffron-500/40 hover:scale-105
-           transition-all duration-300 ease-out;
+    @apply btn bg-stone-900 text-stone-50 hover:bg-stone-800;
   }
   
-  .btn-secondary {
-    @apply inline-flex items-center justify-center px-8 py-4 text-base font-semibold 
-           text-navy-600 bg-white border-2 border-navy-200 rounded-full
-           hover:border-saffron-500 hover:text-saffron-600
-           transition-all duration-300 ease-out;
+  .btn-outline {
+    @apply btn border border-stone-300 text-stone-700 hover:border-stone-900 hover:text-stone-900;
+  }
+  
+  /* Layout */
+  .container-wide {
+    @apply max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12;
+  }
+  
+  .container-narrow {
+    @apply max-w-3xl mx-auto px-5 sm:px-8;
   }
   
   .section-padding {
-    @apply px-6 md:px-12 lg:px-24 py-20 md:py-32;
+    @apply py-20 md:py-32 lg:py-40;
   }
   
-  .card-elevated {
-    @apply bg-white rounded-3xl shadow-xl shadow-navy-900/5 
-           hover:shadow-2xl hover:shadow-navy-900/10 
-           transition-all duration-500 ease-out;
-  }
-  
-  .heading-xl {
-    @apply font-display text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-tight;
-  }
-  
-  .heading-lg {
-    @apply font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight;
-  }
-  
-  .heading-md {
-    @apply font-display text-2xl md:text-3xl font-bold tracking-tight;
-  }
-  
-  .body-lg {
-    @apply font-body text-lg md:text-xl text-navy-500 leading-relaxed;
-  }
-  
-  .body-md {
-    @apply font-body text-base md:text-lg text-navy-500 leading-relaxed;
+  /* Dividers */
+  .divider {
+    @apply h-px bg-stone-200;
   }
 }
 
 @layer utilities {
-  .scrollbar-thin {
-    scrollbar-width: thin;
+  .text-balance {
+    text-wrap: balance;
   }
   
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-  
-  .scrollbar-thin::-webkit-scrollbar-track {
-    @apply bg-cream-200 rounded-full;
-  }
-  
-  .scrollbar-thin::-webkit-scrollbar-thumb {
-    @apply bg-saffron-400 rounded-full;
-  }
-  
-  .glass {
-    @apply bg-white/70 backdrop-blur-xl border border-white/20;
+  /* Subtle animations */
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
   }
 }
 
-.hero-gradient {
-  background: linear-gradient(135deg, #FFF8F0 0%, #FFF7F0 25%, #FFF8F0 50%, #FFEDE0 75%, #FFF8F0 100%);
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
-}
-
-@keyframes gradient {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
