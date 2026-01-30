@@ -1,0 +1,18 @@
+ ⨯ Failed to start server
+Error: listen EADDRINUSE: address already in use :::3005
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at Server.listen (node:net:2102:7)
+    at <anonymous> (/Users/kamal/dev/klm-foundation/node_modules/next/src/server/lib/start-server.ts:338:12)
+    at new Promise (<anonymous>)
+    at startServer (/Users/kamal/dev/klm-foundation/node_modules/next/src/server/lib/start-server.ts:213:9)
+    at <anonymous> (/Users/kamal/dev/klm-foundation/node_modules/next/src/server/lib/start-server.ts:381:9)
+    at Span.traceAsyncFn (/Users/kamal/dev/klm-foundation/node_modules/next/src/trace/trace.ts:141:20)
+    at process.<anonymous> (/Users/kamal/dev/klm-foundation/node_modules/next/src/server/lib/start-server.ts:380:29)
+    at process.emit (node:events:519:28) {
+  code: 'EADDRINUSE',
+  errno: -48,
+  syscall: 'listen',
+  address: '::',
+  port: 3005
+}

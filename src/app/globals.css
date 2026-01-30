@@ -14,39 +14,39 @@
   }
   
   ::selection {
-    @apply bg-stone-800 text-stone-50;
+    @apply bg-terracotta-500 text-white;
   }
 }
 
 @layer components {
   /* Typography */
   .heading-display {
-    @apply font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal tracking-tight leading-[1.1];
+    @apply font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal tracking-tight leading-[1.05];
   }
   
   .heading-large {
-    @apply font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight leading-[1.15];
+    @apply font-serif text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight leading-[1.1];
   }
   
   .heading-medium {
-    @apply font-serif text-2xl sm:text-3xl font-normal tracking-tight leading-[1.2];
+    @apply font-serif text-2xl sm:text-3xl font-normal tracking-tight leading-[1.15];
   }
   
   .body-large {
-    @apply text-lg md:text-xl text-stone-600 leading-relaxed;
+    @apply text-lg md:text-xl text-stone-500 leading-relaxed;
   }
   
   .body-regular {
-    @apply text-base text-stone-600 leading-relaxed;
+    @apply text-base text-stone-500 leading-relaxed;
   }
   
   .label {
-    @apply text-xs uppercase tracking-[0.2em] text-stone-500 font-medium;
+    @apply text-[11px] uppercase tracking-[0.2em] font-medium;
   }
   
   /* Buttons */
   .btn {
-    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium transition-all duration-300 ease-out;
+    @apply inline-flex items-center justify-center px-6 py-3.5 text-sm font-medium tracking-wide transition-all duration-300 ease-out;
   }
   
   .btn-primary {
@@ -59,7 +59,7 @@
   
   /* Layout */
   .container-wide {
-    @apply max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12;
+    @apply max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16;
   }
   
   .container-narrow {
@@ -67,7 +67,7 @@
   }
   
   .section-padding {
-    @apply py-20 md:py-32 lg:py-40;
+    @apply py-24 md:py-32 lg:py-40;
   }
   
   /* Dividers */
@@ -85,15 +85,33 @@
   .animate-fade-in-up {
     animation: fadeInUp 0.8s ease-out forwards;
   }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
 }
 
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Smooth image loading */
+img {
+  @apply transition-opacity duration-500;
 }
