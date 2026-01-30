@@ -2,4 +2,14 @@
 > klm-foundation@0.1.0 dev
 > next dev
 
-[?25h
+  ▲ Next.js 14.2.3
+  - Local:        http://localhost:3005
+
+ ✓ Starting...
+ ✓ Ready in 1627ms
+ ⚠ Found a change in next.config.mjs. Restarting the server to apply the changes...
+  ▲ Next.js 14.2.3
+  - Local:        http://localhost:3005
+
+ ✓ Starting...
+ ✓ Ready in 2.8s

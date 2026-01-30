@@ -9,8 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        serif: ['var(--font-serif)', 'Georgia', 'serif'],
-        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-serif)', 'Playfair Display', 'Georgia', 'Times New Roman', 'serif'],
+        sans: ['var(--font-sans)', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
       colors: {
         stone: {
@@ -41,6 +41,30 @@ const config: Config = {
       spacing: {
         '18': '4.5rem',
         '22': '5.5rem',
+        '26': '6.5rem',
+        '30': '7.5rem',
+      },
+      fontSize: {
+        '10xl': ['10rem', { lineHeight: '0.9' }],
+        '11xl': ['12rem', { lineHeight: '0.85' }],
+        '12xl': ['14rem', { lineHeight: '0.8' }],
+      },
+      letterSpacing: {
+        'ultra-wide': '0.3em',
+      },
+      transitionTimingFunction: {
+        'out-expo': 'cubic-bezier(0.19, 1, 0.22, 1)',
+        'in-out-expo': 'cubic-bezier(0.87, 0, 0.13, 1)',
+      },
+      animation: {
+        'marquee': 'marquee 40s linear infinite',
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
       },
     },
   },

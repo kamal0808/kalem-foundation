@@ -1,38 +1,37 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ============================================
    KALEM FOUNDATION - AWWWARDS QUALITY CSS
+   Locomotive / Active Theory / Apple Inspired
    ============================================ */
 
 @layer base {
   :root {
-    --cursor-size: 40px;
+    --cursor-size: 16px;
+    --cursor-size-hover: 80px;
     --primary: #1C1917;
     --accent: #C96B4A;
     --accent-light: #E08A69;
+    --bg: #F8F7F4;
   }
 
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    cursor: none;
-  }
-  
-  @media (max-width: 768px) {
-    html {
-      cursor: auto;
-    }
+    scroll-behavior: auto !important;
   }
   
   body {
-    @apply bg-stone-50 text-stone-900 overflow-x-hidden;
+    background-color: var(--bg);
+    color: var(--primary);
+    overflow-x: hidden;
   }
   
   ::selection {
-    @apply bg-terracotta-500 text-white;
+    background-color: var(--accent);
+    color: white;
   }
   
   /* Hide scrollbar but keep functionality */
@@ -40,343 +39,344 @@
     width: 0px;
     background: transparent;
   }
-}
-
-@layer components {
-  /* ==========================================
-     DRAMATIC TYPOGRAPHY
-     ========================================== */
   
-  .display-huge {
-    @apply text-[clamp(3rem,12vw,12rem)] font-serif leading-[0.85] tracking-[-0.03em] font-light;
+  * {
+    scrollbar-width: none;
   }
-  
-  .display-large {
-    @apply text-[clamp(2.5rem,8vw,8rem)] font-serif leading-[0.9] tracking-[-0.02em] font-light;
-  }
-  
-  .display-medium {
-    @apply text-[clamp(2rem,5vw,5rem)] font-serif leading-[0.95] tracking-[-0.02em] font-light;
-  }
-  
-  .heading-xl {
-    @apply text-[clamp(1.75rem,4vw,4rem)] font-serif leading-[1.1] tracking-[-0.01em];
-  }
-  
-  .heading-lg {
-    @apply text-[clamp(1.5rem,3vw,3rem)] font-serif leading-[1.15];
-  }
-  
-  .heading-md {
-    @apply text-[clamp(1.25rem,2vw,2rem)] font-serif leading-[1.2];
-  }
-  
-  .body-xl {
-    @apply text-[clamp(1.125rem,1.5vw,1.5rem)] leading-[1.6] font-light;
-  }
-  
-  .body-lg {
-    @apply text-lg md:text-xl leading-[1.7] font-light;
-  }
-  
-  .body-md {
-    @apply text-base leading-[1.7];
-  }
-  
-  .label {
-    @apply text-[11px] uppercase tracking-[0.25em] font-medium;
-  }
-  
-  .label-lg {
-    @apply text-xs uppercase tracking-[0.2em] font-medium;
-  }
-
-  /* ==========================================
-     EDITORIAL GRID LAYOUTS
-     ========================================== */
-  
-  .container-full {
-    @apply w-full px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24;
-  }
-  
-  .container-wide {
-    @apply max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 lg:px-16;
-  }
-  
-  .container-narrow {
-    @apply max-w-4xl mx-auto px-4 sm:px-6 md:px-8;
-  }
-  
-  .editorial-grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 1rem;
-  }
-  
-  @media (min-width: 768px) {
-    .editorial-grid {
-      gap: 2rem;
-    }
-  }
-  
-  .section-padding {
-    @apply py-24 md:py-32 lg:py-48;
-  }
-  
-  .section-padding-sm {
-    @apply py-16 md:py-24 lg:py-32;
-  }
-
-  /* ==========================================
-     BUTTONS - MAGNETIC & ANIMATED
-     ========================================== */
-  
-  .btn {
-    @apply relative inline-flex items-center justify-center overflow-hidden;
-    @apply px-8 py-4 text-sm font-medium tracking-wider uppercase;
-    @apply transition-all duration-500 ease-out;
-  }
-  
-  .btn-primary {
-    @apply btn bg-stone-900 text-stone-50;
-  }
-  
-  .btn-primary::before {
-    content: '';
-    @apply absolute inset-0 bg-terracotta-500;
-    transform: translateX(-101%);
-    transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
-  }
-  
-  .btn-primary:hover::before {
-    transform: translateX(0);
-  }
-  
-  .btn-primary span {
-    @apply relative z-10;
-  }
-  
-  .btn-outline {
-    @apply btn border border-stone-300 text-stone-700;
-    @apply hover:border-stone-900;
-  }
-  
-  .btn-ghost {
-    @apply btn text-stone-700;
-    @apply hover:text-terracotta-500;
-  }
-  
-  .btn-ghost::after {
-    content: '';
-    @apply absolute bottom-3 left-8 right-8 h-px bg-current;
-    @apply origin-left scale-x-0 transition-transform duration-500;
-  }
-  
-  .btn-ghost:hover::after {
-    @apply scale-x-100;
-  }
-
-  /* ==========================================
-     DIVIDERS & LINES
-     ========================================== */
-  
-  .divider {
-    @apply h-px bg-stone-200;
-  }
-  
-  .divider-accent {
-    @apply h-px bg-terracotta-400;
-  }
-  
-  .vertical-line {
-    @apply w-px bg-stone-200 h-24 mx-auto;
-  }
-
-  /* ==========================================
-     CARDS & SURFACES
-     ========================================== */
-  
-  .card {
-    @apply bg-white border border-stone-100;
-    @apply transition-all duration-500 ease-out;
-  }
-  
-  .card:hover {
-    @apply border-stone-200 shadow-lg;
-  }
-  
-  .glass {
-    @apply bg-stone-50/80 backdrop-blur-xl;
-  }
-
-  /* ==========================================
-     IMAGE TREATMENTS
-     ========================================== */
-  
-  .img-duotone {
-    filter: grayscale(100%) contrast(1.1);
-    mix-blend-mode: multiply;
-  }
-  
-  .img-overlay {
-    @apply relative;
-  }
-  
-  .img-overlay::after {
-    content: '';
-    @apply absolute inset-0;
-    background: linear-gradient(to top, rgba(28, 25, 23, 0.4), transparent 50%);
-  }
-  
-  .clip-reveal {
-    clip-path: inset(0 100% 0 0);
-  }
-  
-  .clip-reveal.revealed {
-    clip-path: inset(0 0 0 0);
-    transition: clip-path 1.2s cubic-bezier(0.65, 0, 0.35, 1);
-  }
-
-  /* ==========================================
-     NAVIGATION
-     ========================================== */
-  
-  .nav-link {
-    @apply relative text-sm text-stone-500;
-    @apply transition-colors duration-300;
-  }
-  
-  .nav-link:hover {
-    @apply text-stone-900;
-  }
-  
-  .nav-link::after {
-    content: '';
-    @apply absolute -bottom-1 left-0 w-full h-px bg-terracotta-500;
-    @apply origin-left scale-x-0 transition-transform duration-300;
-  }
-  
-  .nav-link:hover::after {
-    @apply scale-x-100;
-  }
-
-  /* ==========================================
-     MARQUEE
-     ========================================== */
-  
-  .marquee {
-    @apply flex overflow-hidden;
-  }
-  
-  .marquee-content {
-    @apply flex shrink-0 items-center;
-    animation: marquee 30s linear infinite;
-  }
-  
-  @keyframes marquee {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
-
-  /* ==========================================
-     SCROLL INDICATORS
-     ========================================== */
-  
-  .scroll-indicator {
-    @apply w-6 h-10 border-2 border-stone-400 rounded-full;
-    @apply flex items-start justify-center p-2;
-  }
-  
-  .scroll-indicator::after {
-    content: '';
-    @apply w-1 h-2 bg-stone-400 rounded-full;
-    animation: scroll-bounce 1.5s ease-in-out infinite;
-  }
-  
-  @keyframes scroll-bounce {
-    0%, 100% {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    50% {
-      transform: translateY(8px);
-      opacity: 0.3;
-    }
-  }
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-  
-  .text-stroke {
-    -webkit-text-stroke: 1px currentColor;
-    -webkit-text-fill-color: transparent;
-  }
-  
-  .text-stroke-2 {
-    -webkit-text-stroke: 2px currentColor;
-    -webkit-text-fill-color: transparent;
-  }
-
-  /* Mask utilities */
-  .mask-gradient-b {
-    mask-image: linear-gradient(to bottom, black 60%, transparent);
-  }
-  
-  .mask-gradient-t {
-    mask-image: linear-gradient(to top, black 60%, transparent);
-  }
-
-  /* Animation delays */
-  .delay-100 { animation-delay: 100ms; }
-  .delay-200 { animation-delay: 200ms; }
-  .delay-300 { animation-delay: 300ms; }
-  .delay-400 { animation-delay: 400ms; }
-  .delay-500 { animation-delay: 500ms; }
-  
-  /* Aspect ratios */
-  .aspect-portrait { aspect-ratio: 3/4; }
-  .aspect-landscape { aspect-ratio: 4/3; }
-  .aspect-wide { aspect-ratio: 16/9; }
-  .aspect-cinema { aspect-ratio: 21/9; }
 }
 
 /* ============================================
-   GSAP ANIMATION STATES
+   CUSTOM CURSOR
    ============================================ */
 
-.fade-up {
+.custom-cursor {
+  position: fixed;
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  border: 1px solid var(--primary);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+
+.custom-cursor.hover {
+  width: var(--cursor-size-hover);
+  height: var(--cursor-size-hover);
+  background-color: white;
+  border-color: white;
+}
+
+.cursor-dot {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+  mix-blend-mode: difference;
+}
+
+@media (max-width: 768px) {
+  .custom-cursor,
+  .cursor-dot {
+    display: none;
+  }
+}
+
+/* ============================================
+   LAYOUT UTILITIES
+   ============================================ */
+
+@layer components {
+  .container-wide {
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .container-wide {
+      padding-left: 3rem;
+      padding-right: 3rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .container-wide {
+      padding-left: 4rem;
+      padding-right: 4rem;
+    }
+  }
+}
+
+/* ============================================
+   MARQUEE ANIMATION
+   ============================================ */
+
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-content {
+  display: inline-flex;
+  animation: marquee 40s linear infinite;
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+/* ============================================
+   SPLIT TEXT ANIMATION SUPPORT
+   ============================================ */
+
+.char,
+.word {
+  display: inline-block;
   will-change: transform, opacity;
 }
 
-.parallax-img {
-  will-change: transform;
+.word {
+  margin-right: 0.25em;
 }
 
-.scale-reveal {
-  will-change: transform, opacity;
+.word:last-child {
+  margin-right: 0;
 }
 
-/* Pinned section styles */
-.pin-spacer {
-  @apply flex-shrink-0;
-}
+/* ============================================
+   IMAGE REVEAL ANIMATIONS
+   ============================================ */
 
-/* Image reveal animation placeholder */
 .img-reveal {
+  position: relative;
   overflow: hidden;
 }
 
-.img-reveal img {
-  transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+.img-reveal-overlay {
+  position: absolute;
+  inset: 0;
+  transform-origin: right center;
+  z-index: 10;
 }
 
-.img-reveal:hover img {
-  transform: scale(1.05);
+.img-reveal img {
+  will-change: transform;
+}
+
+/* ============================================
+   REVEAL TEXT ANIMATIONS
+   ============================================ */
+
+.reveal-title,
+.reveal-text {
+  will-change: transform, opacity;
+}
+
+/* ============================================
+   GALLERY SECTION
+   ============================================ */
+
+.gallery-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.gallery-track {
+  will-change: transform;
+}
+
+.gallery-item {
+  flex-shrink: 0;
+  position: relative;
+}
+
+.gallery-item img {
+  will-change: transform;
+}
+
+/* ============================================
+   PROGRAM CARDS
+   ============================================ */
+
+.program-card {
+  will-change: transform, opacity;
+}
+
+/* ============================================
+   COUNTERS
+   ============================================ */
+
+.counter {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================
+   LINE REVEALS
+   ============================================ */
+
+.line-reveal {
+  will-change: transform;
+  transform-origin: left center;
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+
+nav {
+  transition: background-color 0.5s ease, backdrop-filter 0.5s ease;
+}
+
+nav.scrolled {
+  background-color: rgba(248, 247, 244, 0.95);
+  backdrop-filter: blur(20px);
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+a[class*="inline-flex"],
+button {
+  position: relative;
+  overflow: hidden;
+}
+
+a[class*="inline-flex"]::before,
+button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-101%);
+  transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ============================================
+   SCROLL INDICATOR
+   ============================================ */
+
+@keyframes scroll-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.3;
+    transform: translateY(8px);
+  }
+}
+
+/* ============================================
+   GRAIN TEXTURE OVERLAY
+   ============================================ */
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* ============================================
+   RESPONSIVE TYPOGRAPHY
+   ============================================ */
+
+@media (max-width: 640px) {
+  .hero-title {
+    font-size: clamp(2.5rem, 12vw, 4rem) !important;
+  }
+}
+
+/* ============================================
+   SMOOTH SCROLL OVERRIDES
+   ============================================ */
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Pin spacer fix for GSAP */
+.pin-spacer {
+  flex-shrink: 0 !important;
+}
+
+/* ============================================
+   MEDIA QUERIES FOR PERFORMANCE
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .marquee-content {
+    animation: none;
+  }
+}
+
+/* ============================================
+   HOVER STATES - DESKTOP ONLY
+   ============================================ */
+
+@media (hover: hover) {
+  .program-card:hover img {
+    transform: scale(1.05);
+  }
+  
+  .gallery-item:hover img {
+    transform: scale(1.05);
+  }
 }
