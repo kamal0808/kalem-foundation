@@ -9,41 +9,22 @@ import Lenis from 'lenis';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Photo data for the gallery
-const photos = [
-  { src: '/images/kalem-01.jpg', alt: 'Community gathering at Kalem Foundation', caption: 'Building connections' },
-  { src: '/images/kalem-02.jpg', alt: 'Rural classroom education session', caption: 'Learning together' },
-  { src: '/images/kalem-03.jpg', alt: 'Students engaged in activities', caption: 'Active minds' },
-  { src: '/images/kalem-04.jpg', alt: 'Community workshop', caption: 'Shared growth' },
-  { src: '/images/kalem-05.jpg', alt: 'Youth leadership program', caption: 'Future leaders' },
-  { src: '/images/kalem-06.jpg', alt: 'Educational resources distribution', caption: 'Resources for all' },
-  { src: '/images/kalem-07.jpg', alt: 'Team collaboration', caption: 'Working as one' },
-  { src: '/images/kalem-08.jpg', alt: 'Children at rural school', caption: 'Bright futures' },
-  { src: '/images/kalem-09.jpg', alt: 'WhySchool bootcamp session', caption: 'Finding clarity' },
-  { src: '/images/kalem-10.jpg', alt: 'Youth empowerment session', caption: 'Voices rising' },
-  { src: '/images/kalem-11.jpg', alt: 'Community celebration', caption: 'Joy in progress' },
-  { src: '/images/kalem-12.jpg', alt: 'Parent engagement program', caption: 'Families united' },
-  { src: '/images/kalem-13.jpg', alt: 'Volunteer team', caption: 'Heart of change' },
-];
-
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [cursorVariant, setCursorVariant] = useState('default');
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
-  const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
     // Initialize Lenis smooth scroll
     const lenis = new Lenis({
-      duration: 1.4,
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
     });
-    lenisRef.current = lenis;
 
     function raf(time: number) {
       lenis.raf(time);
@@ -51,23 +32,20 @@ export default function Home() {
     }
     requestAnimationFrame(raf);
 
-    // Connect Lenis to ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
-
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
     });
-
     gsap.ticker.lagSmoothing(0);
 
-    // Page load animation
     setTimeout(() => setIsLoaded(true), 100);
 
     const ctx = gsap.context(() => {
-      // HERO SECTION ANIMATIONS
-      // ========================
+      // ========================================
+      // HERO INTRO SEQUENCE
+      // ========================================
       
-      // Split text for hero title
+      // Dramatic title reveal
       const heroTitle = document.querySelector('.hero-title');
       if (heroTitle) {
         const split = new SplitType(heroTitle as HTMLElement, { 
@@ -77,36 +55,44 @@ export default function Home() {
         
         gsap.from(split.chars, {
           opacity: 0,
-          y: 100,
+          y: 120,
           rotateX: -90,
-          stagger: 0.02,
-          duration: 1,
+          stagger: 0.015,
+          duration: 1.2,
           ease: 'power4.out',
-          delay: 0.5,
+          delay: 0.3,
         });
       }
 
-      // Hero subtitle fade
+      // Subtitle slide
       gsap.from('.hero-subtitle', {
         opacity: 0,
-        y: 40,
+        y: 60,
         duration: 1,
         ease: 'power3.out',
-        delay: 1.2,
+        delay: 1,
       });
 
-      // Hero CTA buttons
-      gsap.from('.hero-cta', {
+      // Location tag
+      gsap.from('.hero-location', {
         opacity: 0,
-        y: 30,
+        x: -30,
         duration: 0.8,
         ease: 'power3.out',
+        delay: 1.3,
+      });
+
+      // Scroll cue
+      gsap.from('.scroll-cue', {
+        opacity: 0,
+        y: 20,
+        duration: 0.6,
         delay: 1.5,
       });
 
-      // Parallax on hero image
-      gsap.to('.hero-bg-image', {
-        yPercent: 40,
+      // Hero parallax
+      gsap.to('.hero-bg', {
+        yPercent: 30,
         ease: 'none',
         scrollTrigger: {
           trigger: heroRef.current,
@@ -116,127 +102,101 @@ export default function Home() {
         },
       });
 
-      // FOUNDER SECTION - STICKY SCROLL
-      // ================================
+      // ========================================
+      // MANIFESTO SECTION - TEXT REVEAL
+      // ========================================
       
-      const founderSection = document.querySelector('.founder-section');
-      if (founderSection) {
-        // Pin the founder text
-        ScrollTrigger.create({
-          trigger: '.founder-content',
-          start: 'top 20%',
-          end: 'bottom 80%',
-          pin: '.founder-text',
-          pinSpacing: false,
-        });
-
-        // Parallax on founder images
-        gsap.to('.founder-img-1', {
-          yPercent: -20,
-          ease: 'none',
+      const manifestoWords = document.querySelectorAll('.manifesto-word');
+      manifestoWords.forEach((word, i) => {
+        gsap.from(word, {
+          opacity: 0.1,
+          duration: 0.5,
           scrollTrigger: {
-            trigger: '.founder-section',
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1,
-          },
-        });
-
-        gsap.to('.founder-img-2', {
-          yPercent: 20,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.founder-section',
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1,
-          },
-        });
-      }
-
-      // TEXT REVEALS
-      // =============
-      
-      // Split text reveals for section titles
-      document.querySelectorAll('.reveal-title').forEach((el) => {
-        const split = new SplitType(el as HTMLElement, { 
-          types: 'words',
-          tagName: 'span'
-        });
-        
-        gsap.from(split.words, {
-          opacity: 0,
-          y: 60,
-          stagger: 0.05,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: el,
+            trigger: word,
             start: 'top 80%',
-            toggleActions: 'play none none reverse',
+            end: 'top 30%',
+            scrub: true,
           },
         });
       });
 
-      // Paragraph reveals
-      gsap.utils.toArray('.reveal-text').forEach((el: any) => {
-        gsap.from(el, {
-          opacity: 0,
-          y: 40,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
-          },
-        });
-      });
-
-      // HORIZONTAL GALLERY
-      // ===================
+      // ========================================
+      // HORIZONTAL IMAGE STRIP
+      // ========================================
       
-      const gallerySection = document.querySelector('.gallery-section');
-      const galleryTrack = document.querySelector('.gallery-track');
+      const stripSection = document.querySelector('.strip-section');
+      const stripTrack = document.querySelector('.strip-track');
       
-      if (gallerySection && galleryTrack) {
-        const galleryWidth = galleryTrack.scrollWidth;
+      if (stripSection && stripTrack) {
+        const stripWidth = (stripTrack as HTMLElement).scrollWidth;
         const windowWidth = window.innerWidth;
         
-        gsap.to(galleryTrack, {
-          x: () => -(galleryWidth - windowWidth + 100),
+        gsap.to(stripTrack, {
+          x: () => -(stripWidth - windowWidth + 50),
           ease: 'none',
           scrollTrigger: {
-            trigger: gallerySection,
+            trigger: stripSection,
             start: 'top top',
-            end: () => `+=${galleryWidth}`,
+            end: () => `+=${stripWidth * 0.8}`,
             scrub: 1,
             pin: true,
             anticipatePin: 1,
           },
         });
-
-        // Individual image parallax within gallery
-        document.querySelectorAll('.gallery-item').forEach((item) => {
-          const img = item.querySelector('img');
-          gsap.to(img, {
-            xPercent: -10,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: gallerySection,
-              start: 'top top',
-              end: () => `+=${galleryWidth}`,
-              scrub: 1,
-            },
-          });
-        });
       }
 
-      // IMPACT NUMBERS COUNTER
-      // =======================
+      // ========================================
+      // FOUNDER SECTION - CINEMATIC REVEAL
+      // ========================================
       
-      document.querySelectorAll('.counter').forEach((counter: any) => {
-        const target = parseInt(counter.dataset.target || '0');
+      gsap.from('.founder-image', {
+        scale: 1.3,
+        duration: 1.5,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.founder-section',
+          start: 'top 80%',
+        },
+      });
+
+      // Founder text blocks
+      document.querySelectorAll('.founder-text-block').forEach((block, i) => {
+        gsap.from(block, {
+          opacity: 0,
+          y: 80,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: block,
+            start: 'top 85%',
+          },
+        });
+      });
+
+      // ========================================
+      // PROGRAMS - STAGGERED CARDS
+      // ========================================
+      
+      document.querySelectorAll('.program-card').forEach((card, i) => {
+        gsap.from(card, {
+          opacity: 0,
+          y: 100,
+          scale: 0.98,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+          },
+        });
+      });
+
+      // ========================================
+      // IMPACT SECTION - COUNTER ANIMATION
+      // ========================================
+      
+      document.querySelectorAll('.stat-number').forEach((stat: any) => {
+        const target = parseInt(stat.dataset.target || '0');
         const obj = { value: 0 };
         
         gsap.to(obj, {
@@ -244,103 +204,67 @@ export default function Home() {
           duration: 2.5,
           ease: 'power2.out',
           scrollTrigger: {
-            trigger: counter,
+            trigger: stat,
             start: 'top 80%',
-            toggleActions: 'play none none none',
           },
           onUpdate: () => {
-            counter.textContent = Math.floor(obj.value);
+            stat.textContent = Math.floor(obj.value);
           },
         });
       });
 
-      // PROGRAMS SECTION - STAGGER REVEAL
-      // ==================================
+      // ========================================
+      // GALLERY GRID - REVEAL
+      // ========================================
       
-      gsap.utils.toArray('.program-card').forEach((card: any, i) => {
-        gsap.from(card, {
+      document.querySelectorAll('.gallery-img').forEach((img, i) => {
+        gsap.from(img, {
           opacity: 0,
-          y: 100,
-          scale: 0.95,
+          scale: 1.2,
+          duration: 1,
+          delay: i * 0.1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: img,
+            start: 'top 85%',
+          },
+        });
+      });
+
+      // ========================================
+      // TEXT REVEALS
+      // ========================================
+      
+      document.querySelectorAll('.reveal-up').forEach((el) => {
+        gsap.from(el, {
+          opacity: 0,
+          y: 50,
           duration: 1,
           ease: 'power3.out',
           scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
-          },
-          delay: i * 0.1,
-        });
-      });
-
-      // IMAGE REVEALS
-      // ==============
-      
-      gsap.utils.toArray('.img-reveal').forEach((el: any) => {
-        const overlay = el.querySelector('.img-reveal-overlay');
-        const img = el.querySelector('img');
-        
-        if (overlay && img) {
-          gsap.set(img, { scale: 1.3 });
-          
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: el,
-              start: 'top 80%',
-              toggleActions: 'play none none reverse',
-            },
-          });
-          
-          tl.to(overlay, {
-            scaleX: 0,
-            duration: 1.2,
-            ease: 'power4.inOut',
-            transformOrigin: 'right center',
-          });
-          
-          tl.to(img, {
-            scale: 1,
-            duration: 1.4,
-            ease: 'power3.out',
-          }, '-=0.8');
-        }
-      });
-
-      // LINE REVEALS
-      // =============
-      
-      gsap.utils.toArray('.line-reveal').forEach((el: any) => {
-        gsap.from(el, {
-          scaleX: 0,
-          duration: 1.2,
-          ease: 'power4.inOut',
-          transformOrigin: 'left center',
-          scrollTrigger: {
             trigger: el,
             start: 'top 85%',
-            toggleActions: 'play none none reverse',
           },
         });
       });
 
-      // FOOTER REVEAL
-      // ==============
-      
-      gsap.from('.footer-content', {
-        opacity: 0,
-        y: 60,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.site-footer',
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
-        },
+      // Large text parallax
+      document.querySelectorAll('.parallax-text').forEach((el) => {
+        gsap.to(el, {
+          yPercent: -20,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        });
       });
 
     }, containerRef);
 
-    // CUSTOM CURSOR
+    // Custom cursor
     const handleMouseMove = (e: MouseEvent) => {
       setCursorPos({ x: e.clientX, y: e.clientY });
     };
@@ -357,681 +281,484 @@ export default function Home() {
   return (
     <div 
       ref={containerRef} 
-      className={`bg-[#F8F7F4] transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+      className={`bg-[#0A0A0A] transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
     >
       {/* Custom Cursor */}
       <div 
         className={`custom-cursor ${cursorVariant}`}
-        style={{
-          left: cursorPos.x,
-          top: cursorPos.y,
-        }}
-      />
-      <div 
-        className="cursor-dot"
-        style={{
-          left: cursorPos.x,
-          top: cursorPos.y,
-        }}
+        style={{ left: cursorPos.x, top: cursorPos.y }}
       />
 
-      {/* Navigation */}
+      {/* ============================================
+          NAVIGATION - MINIMAL
+          ============================================ */}
       <nav className="fixed top-0 left-0 right-0 z-50 mix-blend-difference">
-        <div className="container-wide">
-          <div className="flex items-center justify-between h-24 md:h-28">
-            {/* Logo */}
-            <a href="#" className="flex items-center gap-4 group">
-              <div className="w-12 h-12 rounded-full border-2 border-white flex items-center justify-center overflow-hidden">
-                <span className="text-white font-serif text-2xl group-hover:scale-110 transition-transform duration-500">K</span>
-              </div>
-              <div className="hidden sm:block">
-                <span className="text-white font-serif text-xl tracking-tight">Kalem</span>
-                <span className="text-white/60 text-xs ml-2 uppercase tracking-widest">Foundation</span>
-              </div>
-            </a>
-            
-            {/* Nav Links */}
-            <div className="hidden md:flex items-center gap-12">
-              <a href="#about" className="text-white text-sm uppercase tracking-widest hover:opacity-60 transition-opacity">About</a>
-              <a href="#programs" className="text-white text-sm uppercase tracking-widest hover:opacity-60 transition-opacity">Programs</a>
-              <a href="#impact" className="text-white text-sm uppercase tracking-widest hover:opacity-60 transition-opacity">Impact</a>
-              <a href="#contact" className="text-white text-sm uppercase tracking-widest hover:opacity-60 transition-opacity">Contact</a>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button className="md:hidden p-2 text-white">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
+        <div className="flex items-center justify-between h-20 px-6 md:px-12">
+          <a href="#" className="text-white font-serif text-2xl tracking-tight">
+            Kalem
+          </a>
+          <div className="hidden md:flex items-center gap-12">
+            <a href="#manifesto" className="text-white/60 text-xs uppercase tracking-[0.2em] hover:text-white transition-colors">Story</a>
+            <a href="#programs" className="text-white/60 text-xs uppercase tracking-[0.2em] hover:text-white transition-colors">Programs</a>
+            <a href="#impact" className="text-white/60 text-xs uppercase tracking-[0.2em] hover:text-white transition-colors">Impact</a>
+            <a href="#connect" className="text-white text-xs uppercase tracking-[0.2em] border border-white/30 px-6 py-3 hover:bg-white hover:text-black transition-all">Connect</a>
           </div>
+          <button className="md:hidden text-white">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 6h16M4 12h16" />
+            </svg>
+          </button>
         </div>
       </nav>
 
       {/* ============================================
-          HERO SECTION - FULL BLEED CINEMATIC
+          HERO - FULL BLEED CINEMATIC
           ============================================ */}
-      <section ref={heroRef} className="relative h-[100vh] min-h-[700px] overflow-hidden">
-        {/* Background Image with Parallax */}
-        <div className="absolute inset-0">
-          <div className="hero-bg-image absolute inset-0 scale-110">
-            <Image
-              src="/images/kalem-08.jpg"
-              alt="Children at Kalem Foundation school"
-              fill
-              className="object-cover"
-              priority
-              quality={100}
-            />
-          </div>
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/70" />
-          {/* Grain Texture */}
-          <div className="absolute inset-0 opacity-30 mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')]" />
-        </div>
-
-        {/* Hero Content */}
-        <div className="relative h-full flex flex-col justify-end pb-16 md:pb-24">
-          <div className="container-wide">
-            {/* Label */}
-            <div className="mb-8 overflow-hidden">
-              <p className="text-white/70 text-xs uppercase tracking-[0.3em] hero-subtitle">
-                Kalinga Empowerment Foundation • Odisha, India
-              </p>
-            </div>
-
-            {/* Main Title */}
-            <h1 className="hero-title text-white font-serif text-[clamp(3rem,10vw,10rem)] leading-[0.9] tracking-[-0.02em] mb-8 max-w-[90%]">
-              Transforming lives,<br />
-              <span className="text-white/50">one village at a time</span>
-            </h1>
-
-            {/* Subtitle */}
-            <p className="hero-subtitle text-white/80 text-xl md:text-2xl font-light max-w-2xl mb-12 leading-relaxed">
-              From rural classrooms to youth empowerment—we&apos;re building futures 
-              where every child has access to quality education and the confidence to dream.
-            </p>
-
-            {/* CTAs */}
-            <div className="hero-cta flex flex-wrap gap-6">
-              <a 
-                href="#programs" 
-                className="group inline-flex items-center gap-4 bg-white text-stone-900 px-8 py-5 text-sm uppercase tracking-widest hover:bg-[#C96B4A] hover:text-white transition-all duration-500"
-                onMouseEnter={() => setCursorVariant('hover')}
-                onMouseLeave={() => setCursorVariant('default')}
-              >
-                <span>Explore Programs</span>
-                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </a>
-              <a 
-                href="#about" 
-                className="inline-flex items-center gap-4 border border-white/40 text-white px-8 py-5 text-sm uppercase tracking-widest hover:bg-white/10 transition-all duration-500"
-                onMouseEnter={() => setCursorVariant('hover')}
-                onMouseLeave={() => setCursorVariant('default')}
-              >
-                <span>Our Story</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
-          <span className="text-white/50 text-xs uppercase tracking-widest">Scroll</span>
-          <div className="w-px h-16 bg-gradient-to-b from-white/50 to-transparent animate-pulse" />
-        </div>
-      </section>
-
-      {/* ============================================
-          MISSION MARQUEE
-          ============================================ */}
-      <section className="py-6 bg-[#1C1917] overflow-hidden">
-        <div className="marquee-container">
-          <div className="marquee-content animate-marquee">
-            {[...Array(12)].map((_, i) => (
-              <span key={i} className="text-white/40 text-sm uppercase tracking-[0.4em] mx-12 whitespace-nowrap">
-                Education • Empowerment • Community • Transformation •
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================
-          ABOUT / FOUNDER SECTION
-          ============================================ */}
-      <section id="about" className="founder-section relative py-32 md:py-48 overflow-hidden">
-        <div className="container-wide">
-          <div className="founder-content grid grid-cols-12 gap-6 md:gap-12">
-            {/* Left Column - Images */}
-            <div className="col-span-12 lg:col-span-5 relative">
-              {/* First Image - Larger */}
-              <div className="founder-img-1 img-reveal relative aspect-[4/5] mb-6 overflow-hidden">
-                <div className="img-reveal-overlay absolute inset-0 bg-[#F8F7F4] z-10" />
-                <Image
-                  src="/images/kalem-05.jpg"
-                  alt="Ritik Prajjwal Sahu speaking to students"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              {/* Second Image - Offset smaller */}
-              <div className="founder-img-2 img-reveal relative aspect-[3/4] w-2/3 ml-auto -mt-24 overflow-hidden">
-                <div className="img-reveal-overlay absolute inset-0 bg-[#F8F7F4] z-10" />
-                <Image
-                  src="/images/kalem-07.jpg"
-                  alt="Community gathering"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </div>
-
-            {/* Right Column - Text */}
-            <div className="col-span-12 lg:col-span-6 lg:col-start-7 founder-text">
-              {/* Section Label */}
-              <p className="text-[#C96B4A] text-xs uppercase tracking-[0.3em] mb-8 reveal-text">
-                The Origin Story
-              </p>
-
-              {/* Main Title */}
-              <h2 className="reveal-title font-serif text-[clamp(2.5rem,5vw,4.5rem)] text-[#1C1917] leading-[1] mb-12">
-                Born from a simple question:
-                <span className="block text-stone-400 mt-2">&ldquo;Why are we learning this?&rdquo;</span>
-              </h2>
-
-              {/* Story Text */}
-              <div className="space-y-6 text-stone-600 text-lg leading-relaxed">
-                <p className="reveal-text">
-                  Ritik Prajjwal Sahu sat in classrooms at NIT Rourkela—one of India&apos;s 
-                  premier engineering institutes—and felt a profound disconnect. Years of 
-                  study, but no clarity on purpose. Excellent grades, but no real-world skills.
-                </p>
-                <p className="reveal-text">
-                  The realization sparked something bigger: if students at elite institutions 
-                  struggle with direction, what about children in rural Odisha? Those who 
-                  sit on mats in under-resourced schools, learning from outdated textbooks?
-                </p>
-                <p className="reveal-text text-[#1C1917] font-medium">
-                  Kalem Foundation—Kalinga Empowerment Foundation—was born to bridge 
-                  this gap. From grassroots classrooms to career clarity programs, we&apos;re 
-                  redefining what education means.
-                </p>
-              </div>
-
-              {/* Founder Info */}
-              <div className="mt-16 pt-8 border-t border-stone-200">
-                <div className="flex items-center gap-6 reveal-text">
-                  <div className="relative w-20 h-20 rounded-full overflow-hidden">
-                    <Image
-                      src="/images/kalem-05.jpg"
-                      alt="Ritik Prajjwal Sahu"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div>
-                    <p className="font-serif text-2xl text-[#1C1917]">Ritik Prajjwal Sahu</p>
-                    <p className="text-stone-500">Founder • NIT Rourkela</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================
-          IMPACT NUMBERS
-          ============================================ */}
-      <section id="impact" className="py-32 md:py-48 bg-[#1C1917]">
-        <div className="container-wide">
-          {/* Section Header */}
-          <div className="text-center mb-24">
-            <p className="text-[#C96B4A] text-xs uppercase tracking-[0.3em] mb-6 reveal-text">
-              Our Impact
-            </p>
-            <h2 className="reveal-title font-serif text-[clamp(2rem,4vw,4rem)] text-white leading-tight">
-              Numbers that represent<br />
-              <span className="text-white/40">real lives changed</span>
-            </h2>
-          </div>
-
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16">
-            <div className="text-center reveal-text">
-              <p className="font-serif text-[clamp(4rem,8vw,8rem)] text-[#C96B4A] leading-none mb-4">
-                <span className="counter" data-target="500">0</span>
-                <span className="text-[0.5em]">+</span>
-              </p>
-              <p className="text-white/50 text-sm uppercase tracking-widest">Students Reached</p>
-            </div>
-            <div className="text-center reveal-text">
-              <p className="font-serif text-[clamp(4rem,8vw,8rem)] text-[#C96B4A] leading-none mb-4">
-                <span className="counter" data-target="12">0</span>
-              </p>
-              <p className="text-white/50 text-sm uppercase tracking-widest">Rural Schools</p>
-            </div>
-            <div className="text-center reveal-text">
-              <p className="font-serif text-[clamp(4rem,8vw,8rem)] text-[#C96B4A] leading-none mb-4">
-                <span className="counter" data-target="25">0</span>
-                <span className="text-[0.5em]">+</span>
-              </p>
-              <p className="text-white/50 text-sm uppercase tracking-widest">Volunteers</p>
-            </div>
-            <div className="text-center reveal-text">
-              <p className="font-serif text-[clamp(4rem,8vw,8rem)] text-[#C96B4A] leading-none mb-4">
-                <span className="counter" data-target="4">0</span>
-              </p>
-              <p className="text-white/50 text-sm uppercase tracking-widest">Programs</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================
-          PROGRAMS SECTION
-          ============================================ */}
-      <section id="programs" className="py-32 md:py-48 bg-[#F8F7F4]">
-        <div className="container-wide">
-          {/* Section Header */}
-          <div className="grid grid-cols-12 gap-6 mb-24">
-            <div className="col-span-12 lg:col-span-5">
-              <p className="text-[#C96B4A] text-xs uppercase tracking-[0.3em] mb-6 reveal-text">
-                What We Do
-              </p>
-              <h2 className="reveal-title font-serif text-[clamp(2.5rem,5vw,5rem)] text-[#1C1917] leading-[0.95]">
-                Four pillars of<br />transformation
-              </h2>
-            </div>
-            <div className="col-span-12 lg:col-span-5 lg:col-start-8 flex items-end">
-              <p className="text-stone-600 text-xl leading-relaxed reveal-text">
-                From early education to career readiness, our programs address 
-                different stages of a young person&apos;s journey toward empowerment.
-              </p>
-            </div>
-          </div>
-
-          {/* Programs Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Program 1: Rural Education */}
-            <div className="program-card group relative h-[600px] overflow-hidden">
-              <Image
-                src="/images/kalem-02.jpg"
-                alt="Rural classroom education"
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-10">
-                <span className="text-[#E08A69] text-xs uppercase tracking-[0.3em] mb-4 block">01</span>
-                <h3 className="font-serif text-3xl md:text-4xl text-white mb-4">Rural Education Initiative</h3>
-                <p className="text-white/70 leading-relaxed max-w-md mb-6">
-                  Quality learning for village schools—interactive sessions, modern teaching 
-                  methods, and resources that make education engaging and relevant.
-                </p>
-                <div className="w-16 h-px bg-[#C96B4A] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-              </div>
-            </div>
-
-            {/* Program 2: WhySchool */}
-            <div className="program-card group relative h-[600px] overflow-hidden">
-              <Image
-                src="/images/kalem-09.jpg"
-                alt="WhySchool bootcamp"
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-10">
-                <span className="text-[#E08A69] text-xs uppercase tracking-[0.3em] mb-4 block">02</span>
-                <h3 className="font-serif text-3xl md:text-4xl text-white mb-4">WhySchool.academy</h3>
-                <p className="text-white/70 leading-relaxed max-w-md mb-6">
-                  A 6-day career clarity bootcamp. Stop learning passively—start building actively. 
-                  Real tools, real projects, real confidence.
-                </p>
-                <a 
-                  href="https://whyschool.academy" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 text-[#E08A69] text-sm uppercase tracking-widest hover:text-white transition-colors"
-                >
-                  <span>Visit Website</span>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-
-            {/* Program 3: Community */}
-            <div className="program-card group relative h-[600px] overflow-hidden">
-              <Image
-                src="/images/kalem-11.jpg"
-                alt="Community empowerment"
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-10">
-                <span className="text-[#E08A69] text-xs uppercase tracking-[0.3em] mb-4 block">03</span>
-                <h3 className="font-serif text-3xl md:text-4xl text-white mb-4">Community Empowerment</h3>
-                <p className="text-white/70 leading-relaxed max-w-md mb-6">
-                  Beyond students—we work with families and communities. Parent engagement, 
-                  community gatherings, and programs that build collective ownership.
-                </p>
-                <div className="w-16 h-px bg-[#C96B4A] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-              </div>
-            </div>
-
-            {/* Program 4: Youth Leadership */}
-            <div className="program-card group relative h-[600px] overflow-hidden">
-              <Image
-                src="/images/kalem-10.jpg"
-                alt="Youth leadership"
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-10">
-                <span className="text-[#E08A69] text-xs uppercase tracking-[0.3em] mb-4 block">04</span>
-                <h3 className="font-serif text-3xl md:text-4xl text-white mb-4">Youth Leadership</h3>
-                <p className="text-white/70 leading-relaxed max-w-md mb-6">
-                  Mentoring college students to become change-makers. Volunteer training, 
-                  leadership development, and creating educators who understand ground realities.
-                </p>
-                <div className="w-16 h-px bg-[#C96B4A] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================
-          HORIZONTAL GALLERY
-          ============================================ */}
-      <section className="gallery-section relative h-screen bg-[#1C1917]">
-        {/* Gallery Label */}
-        <div className="absolute top-8 left-8 md:left-16 z-20">
-          <p className="text-white/40 text-xs uppercase tracking-[0.3em] mb-2">Gallery</p>
-          <p className="text-white/60 text-sm">Scroll to explore →</p>
-        </div>
-
-        {/* Horizontal Track */}
-        <div className="h-full flex items-center">
-          <div className="gallery-track flex gap-8 pl-8 md:pl-32 pr-8">
-            {photos.map((photo, index) => (
-              <div 
-                key={index} 
-                className="gallery-item flex-shrink-0 relative group"
-                style={{
-                  width: index % 3 === 0 ? '50vw' : index % 3 === 1 ? '35vw' : '40vw',
-                  height: '70vh',
-                }}
-              >
-                <div className="relative h-full overflow-hidden">
-                  <Image
-                    src={photo.src}
-                    alt={photo.alt}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-500" />
-                </div>
-                <p className="absolute bottom-4 left-4 text-white/0 group-hover:text-white/80 text-sm uppercase tracking-widest transition-all duration-500">
-                  {photo.caption}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================
-          TEAM SECTION
-          ============================================ */}
-      <section className="py-32 md:py-48 bg-[#F8F7F4]">
-        <div className="container-wide">
-          <div className="grid grid-cols-12 gap-8 md:gap-16">
-            {/* Left Column - Header */}
-            <div className="col-span-12 lg:col-span-4">
-              <p className="text-[#C96B4A] text-xs uppercase tracking-[0.3em] mb-6 reveal-text">
-                The Team
-              </p>
-              <h2 className="reveal-title font-serif text-[clamp(2rem,4vw,3.5rem)] text-[#1C1917] leading-tight mb-8">
-                People who believe in change
-              </h2>
-              <p className="text-stone-600 text-lg leading-relaxed reveal-text">
-                From NIT Rourkela to BlackRock, from INSEAD to ISRO—diverse expertise 
-                united by commitment to education.
-              </p>
-            </div>
-
-            {/* Right Column - Team Grid */}
-            <div className="col-span-12 lg:col-span-7 lg:col-start-6">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
-                {/* Team Member 1 */}
-                <div className="reveal-text group">
-                  <div className="aspect-[3/4] relative mb-4 overflow-hidden">
-                    <Image
-                      src="/images/kalem-05.jpg"
-                      alt="Ritik Prajjwal Sahu"
-                      fill
-                      className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                    />
-                  </div>
-                  <h3 className="font-serif text-xl text-[#1C1917]">Ritik Prajjwal Sahu</h3>
-                  <p className="text-[#C96B4A] text-sm">Founder</p>
-                  <p className="text-stone-400 text-xs mt-1">NIT Rourkela</p>
-                </div>
-
-                {/* Team Member 2 */}
-                <div className="reveal-text group">
-                  <div className="aspect-[3/4] relative mb-4 overflow-hidden">
-                    <Image
-                      src="/images/kalem-07.jpg"
-                      alt="Shashmit"
-                      fill
-                      className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                    />
-                  </div>
-                  <h3 className="font-serif text-xl text-[#1C1917]">Shashmit</h3>
-                  <p className="text-[#C96B4A] text-sm">CTO</p>
-                  <p className="text-stone-400 text-xs mt-1">Technology Lead</p>
-                </div>
-
-                {/* Team Member 3 */}
-                <div className="reveal-text group">
-                  <div className="aspect-[3/4] relative mb-4 overflow-hidden">
-                    <Image
-                      src="/images/kalem-03.jpg"
-                      alt="Anwesha Swain"
-                      fill
-                      className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                    />
-                  </div>
-                  <h3 className="font-serif text-xl text-[#1C1917]">Anwesha Swain</h3>
-                  <p className="text-[#C96B4A] text-sm">Marketing</p>
-                  <p className="text-stone-400 text-xs mt-1">BlackRock</p>
-                </div>
-
-                {/* Team Member 4 */}
-                <div className="reveal-text group">
-                  <div className="aspect-[3/4] relative mb-4 overflow-hidden">
-                    <Image
-                      src="/images/kalem-01.jpg"
-                      alt="Alankrita Yadav"
-                      fill
-                      className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                    />
-                  </div>
-                  <h3 className="font-serif text-xl text-[#1C1917]">Alankrita Yadav</h3>
-                  <p className="text-[#C96B4A] text-sm">Strategy</p>
-                  <p className="text-stone-400 text-xs mt-1">INSEAD</p>
-                </div>
-
-                {/* Team Member 5 */}
-                <div className="reveal-text group">
-                  <div className="aspect-[3/4] relative mb-4 overflow-hidden">
-                    <Image
-                      src="/images/kalem-04.jpg"
-                      alt="Pritesh Raj"
-                      fill
-                      className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                    />
-                  </div>
-                  <h3 className="font-serif text-xl text-[#1C1917]">Pritesh Raj</h3>
-                  <p className="text-[#C96B4A] text-sm">Research</p>
-                  <p className="text-stone-400 text-xs mt-1">DRDO / ISRO</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================
-          CTA SECTION
-          ============================================ */}
-      <section id="contact" className="relative py-48 md:py-64 overflow-hidden">
+      <section ref={heroRef} className="relative h-[100vh] min-h-[800px] overflow-hidden">
         {/* Background */}
-        <div className="absolute inset-0">
+        <div className="hero-bg absolute inset-0">
           <Image
-            src="/images/kalem-13.jpg"
-            alt="Join Kalem Foundation"
+            src="/images/kalem-08.jpg"
+            alt="Children in rural Odisha classroom"
             fill
             className="object-cover"
+            priority
+            quality={100}
           />
-          <div className="absolute inset-0 bg-[#1C1917]/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black" />
         </div>
 
         {/* Content */}
-        <div className="container-wide relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <p className="text-[#C96B4A] text-xs uppercase tracking-[0.3em] mb-8 reveal-text">
-              Get Involved
-            </p>
-            <h2 className="reveal-title font-serif text-[clamp(3rem,7vw,7rem)] text-white leading-[0.9] mb-12">
-              Change happens<br />together
-            </h2>
-            <p className="text-white/60 text-xl md:text-2xl leading-relaxed mb-16 reveal-text">
-              Whether you want to volunteer, partner with us, or support our 
-              mission—every contribution creates ripples of change.
-            </p>
+        <div className="relative h-full flex flex-col justify-end pb-20 md:pb-32 px-6 md:px-12">
+          {/* Location Tag */}
+          <div className="hero-location mb-8">
+            <span className="text-[#E08A69] text-xs uppercase tracking-[0.3em]">Odisha, India</span>
+          </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row justify-center gap-6 reveal-text">
-              <a 
-                href="#" 
-                className="group inline-flex items-center justify-center gap-4 bg-[#C96B4A] text-white px-10 py-6 text-sm uppercase tracking-widest hover:bg-[#E08A69] transition-all duration-500"
+          {/* Main Title */}
+          <h1 className="hero-title text-white font-serif text-[clamp(2.5rem,8vw,9rem)] leading-[0.95] tracking-[-0.03em] max-w-[95%] md:max-w-[80%]">
+            We don&apos;t teach.<br />
+            We ignite.
+          </h1>
+
+          {/* Subtitle */}
+          <p className="hero-subtitle text-white/50 text-lg md:text-2xl font-light max-w-2xl mt-8 leading-relaxed">
+            Kalem Foundation reimagines education for rural India—where every child 
+            learns to question, create, and transform their world.
+          </p>
+
+          {/* Scroll Cue */}
+          <div className="scroll-cue absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3">
+            <div className="w-[1px] h-16 bg-gradient-to-b from-white/40 to-transparent" />
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================
+          MANIFESTO - WORD-BY-WORD REVEAL
+          ============================================ */}
+      <section id="manifesto" className="py-32 md:py-48 bg-[#0A0A0A]">
+        <div className="max-w-5xl mx-auto px-6 md:px-12">
+          <p className="text-[#E08A69] text-xs uppercase tracking-[0.3em] mb-12">Our Belief</p>
+          <p className="font-serif text-[clamp(1.5rem,4vw,3.5rem)] text-white/90 leading-[1.3]">
+            <span className="manifesto-word">Education</span>{' '}
+            <span className="manifesto-word">in</span>{' '}
+            <span className="manifesto-word">India</span>{' '}
+            <span className="manifesto-word">is</span>{' '}
+            <span className="manifesto-word">broken.</span>{' '}
+            <span className="manifesto-word text-white/40">Millions</span>{' '}
+            <span className="manifesto-word text-white/40">memorize</span>{' '}
+            <span className="manifesto-word text-white/40">without</span>{' '}
+            <span className="manifesto-word text-white/40">understanding.</span>{' '}
+            <span className="manifesto-word text-white/40">Graduate</span>{' '}
+            <span className="manifesto-word text-white/40">without</span>{' '}
+            <span className="manifesto-word text-white/40">direction.</span>{' '}
+            <span className="manifesto-word">We&apos;re</span>{' '}
+            <span className="manifesto-word">here</span>{' '}
+            <span className="manifesto-word">to</span>{' '}
+            <span className="manifesto-word">change</span>{' '}
+            <span className="manifesto-word">that—</span>
+            <span className="manifesto-word text-[#E08A69]">one</span>{' '}
+            <span className="manifesto-word text-[#E08A69]">village</span>{' '}
+            <span className="manifesto-word text-[#E08A69]">at</span>{' '}
+            <span className="manifesto-word text-[#E08A69]">a</span>{' '}
+            <span className="manifesto-word text-[#E08A69]">time.</span>
+          </p>
+        </div>
+      </section>
+
+      {/* ============================================
+          HORIZONTAL IMAGE STRIP
+          ============================================ */}
+      <section className="strip-section relative h-screen bg-[#0A0A0A]">
+        <div className="absolute top-8 left-6 md:left-12 z-10">
+          <p className="text-white/30 text-xs uppercase tracking-[0.3em]">The Ground Reality</p>
+        </div>
+        
+        <div className="h-full flex items-center">
+          <div className="strip-track flex gap-4 pl-6 md:pl-12">
+            {[
+              { src: '/images/kalem-02.jpg', caption: 'Rural classroom sessions' },
+              { src: '/images/kalem-03.jpg', caption: 'Interactive learning' },
+              { src: '/images/kalem-06.jpg', caption: 'Community gatherings' },
+              { src: '/images/kalem-11.jpg', caption: 'Celebrations' },
+              { src: '/images/kalem-09.jpg', caption: 'Youth workshops' },
+              { src: '/images/kalem-10.jpg', caption: 'Empowerment programs' },
+              { src: '/images/kalem-04.jpg', caption: 'Building futures' },
+            ].map((img, i) => (
+              <div 
+                key={i}
+                className="relative flex-shrink-0 group"
+                style={{ 
+                  width: i % 2 === 0 ? '45vw' : '35vw',
+                  height: '70vh',
+                }}
               >
-                <span>Volunteer With Us</span>
-                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </a>
-              <a 
-                href="#" 
-                className="group inline-flex items-center justify-center gap-4 border border-white/30 text-white px-10 py-6 text-sm uppercase tracking-widest hover:bg-white/10 transition-all duration-500"
-              >
-                <span>Partner</span>
-              </a>
-              <a 
-                href="#" 
-                className="group inline-flex items-center justify-center gap-4 border border-white/30 text-white px-10 py-6 text-sm uppercase tracking-widest hover:bg-white/10 transition-all duration-500"
-              >
-                <span>Donate</span>
-              </a>
+                <Image
+                  src={img.src}
+                  alt={img.caption}
+                  fill
+                  className="object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-700"
+                />
+                <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <p className="text-white text-xs uppercase tracking-widest">{img.caption}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================
+          FOUNDER - CINEMATIC STORY
+          ============================================ */}
+      <section className="founder-section py-32 md:py-48 bg-[#F8F7F4]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-12 gap-8">
+            {/* Left - Image */}
+            <div className="col-span-12 lg:col-span-5">
+              <div className="founder-image relative aspect-[3/4] overflow-hidden">
+                <Image
+                  src="/images/kalem-05.jpg"
+                  alt="Ritik Prajjwal Sahu, Founder"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="mt-6 flex items-center gap-4">
+                <div className="w-12 h-[1px] bg-[#1C1917]/20" />
+                <p className="text-[#1C1917]/60 text-sm">Founder & Visionary</p>
+              </div>
+            </div>
+
+            {/* Right - Story */}
+            <div className="col-span-12 lg:col-span-6 lg:col-start-7">
+              <div className="founder-text-block">
+                <p className="text-[#C96B4A] text-xs uppercase tracking-[0.3em] mb-6">The Beginning</p>
+                <h2 className="font-serif text-[clamp(2rem,4vw,4rem)] text-[#1C1917] leading-[1.1] mb-8">
+                  &ldquo;Why are we learning this?&rdquo;
+                </h2>
+              </div>
+
+              <div className="founder-text-block space-y-6 text-[#1C1917]/70 text-lg leading-relaxed">
+                <p>
+                  Ritik Prajjwal Sahu asked this question throughout his years at NIT Rourkela—one 
+                  of India&apos;s premier engineering colleges. Despite excellent grades, he felt a 
+                  profound disconnect between what he studied and why it mattered.
+                </p>
+                <p>
+                  If students at elite institutions struggled with purpose, what about children 
+                  in rural Odisha? Those learning from outdated textbooks in under-resourced schools?
+                </p>
+                <p className="text-[#1C1917] font-medium text-xl">
+                  Kalem Foundation—Kalinga Empowerment Foundation—was born from this question. 
+                  Not to give answers, but to help every child find their own.
+                </p>
+              </div>
+
+              <div className="founder-text-block mt-12 pt-8 border-t border-[#1C1917]/10">
+                <p className="font-serif text-2xl text-[#1C1917]">Ritik Prajjwal Sahu</p>
+                <p className="text-[#1C1917]/50 mt-1">NIT Rourkela &apos;21 • ISB &apos;25</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* ============================================
-          FOOTER
+          PROGRAMS - EDITORIAL LAYOUT
           ============================================ */}
-      <footer className="site-footer py-24 md:py-32 bg-[#1C1917]">
-        <div className="container-wide footer-content">
-          <div className="grid grid-cols-12 gap-8 md:gap-16 mb-20">
-            {/* Logo & About */}
-            <div className="col-span-12 lg:col-span-4">
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-14 h-14 rounded-full border-2 border-[#C96B4A] flex items-center justify-center">
-                  <span className="text-[#C96B4A] font-serif text-2xl">K</span>
+      <section id="programs" className="py-32 md:py-48 bg-[#0A0A0A]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          {/* Header */}
+          <div className="mb-24 md:mb-32">
+            <p className="text-[#E08A69] text-xs uppercase tracking-[0.3em] mb-6 reveal-up">What We Build</p>
+            <h2 className="parallax-text font-serif text-[clamp(3rem,8vw,8rem)] text-white leading-[0.9] tracking-[-0.02em]">
+              Four<br />
+              <span className="text-white/30">pillars</span>
+            </h2>
+          </div>
+
+          {/* Program Grid - Asymmetric */}
+          <div className="space-y-8">
+            {/* Row 1 */}
+            <div className="grid grid-cols-12 gap-4 md:gap-8">
+              {/* Rural Education - Large */}
+              <div className="program-card col-span-12 lg:col-span-7 relative h-[500px] md:h-[600px] group overflow-hidden">
+                <Image
+                  src="/images/kalem-02.jpg"
+                  alt="Rural Education"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
+                  <span className="text-[#E08A69] text-7xl md:text-9xl font-serif opacity-20 absolute top-0 right-8">01</span>
+                  <p className="text-[#E08A69] text-xs uppercase tracking-[0.3em] mb-3">Program</p>
+                  <h3 className="font-serif text-3xl md:text-5xl text-white mb-4">Rural Education</h3>
+                  <p className="text-white/60 max-w-md leading-relaxed">
+                    Interactive sessions in village schools. Modern pedagogy meets grassroots reality.
+                  </p>
                 </div>
-                <span className="font-serif text-3xl text-white">Kalem</span>
               </div>
-              <p className="text-white/50 leading-relaxed mb-6">
-                Kalinga Empowerment Foundation<br />
-                Empowering rural Odisha through education,<br />
-                one community at a time.
-              </p>
-              <p className="text-white/30 text-sm">
-                Registered Non-Profit Organization
-              </p>
+
+              {/* WhySchool - Smaller */}
+              <div className="program-card col-span-12 lg:col-span-5 relative h-[400px] md:h-[600px] group overflow-hidden">
+                <Image
+                  src="/images/kalem-09.jpg"
+                  alt="WhySchool"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
+                  <span className="text-[#E08A69] text-7xl md:text-9xl font-serif opacity-20 absolute top-0 right-8">02</span>
+                  <p className="text-[#E08A69] text-xs uppercase tracking-[0.3em] mb-3">Program</p>
+                  <h3 className="font-serif text-3xl md:text-4xl text-white mb-4">WhySchool</h3>
+                  <p className="text-white/60 max-w-md leading-relaxed mb-6">
+                    6-day bootcamps for career clarity. Real skills, real projects, real confidence.
+                  </p>
+                  <a 
+                    href="https://whyschool.academy" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-[#E08A69] text-sm hover:text-white transition-colors"
+                  >
+                    Visit whyschool.academy
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 17L17 7M17 7H7M17 7v10" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
             </div>
 
-            {/* Programs */}
-            <div className="col-span-6 md:col-span-3 lg:col-span-2 lg:col-start-7">
-              <h4 className="text-white font-medium mb-6 text-sm uppercase tracking-widest">Programs</h4>
-              <div className="space-y-4 text-white/50">
-                <a href="#programs" className="block hover:text-white transition-colors">Rural Education</a>
-                <a href="https://whyschool.academy" target="_blank" rel="noopener noreferrer" className="block hover:text-white transition-colors">WhySchool.academy</a>
-                <a href="#programs" className="block hover:text-white transition-colors">Community Work</a>
-                <a href="#programs" className="block hover:text-white transition-colors">Youth Leadership</a>
+            {/* Row 2 */}
+            <div className="grid grid-cols-12 gap-4 md:gap-8">
+              {/* Community - Smaller */}
+              <div className="program-card col-span-12 lg:col-span-5 relative h-[400px] md:h-[500px] group overflow-hidden">
+                <Image
+                  src="/images/kalem-11.jpg"
+                  alt="Community Work"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
+                  <span className="text-[#E08A69] text-7xl md:text-9xl font-serif opacity-20 absolute top-0 right-8">03</span>
+                  <p className="text-[#E08A69] text-xs uppercase tracking-[0.3em] mb-3">Program</p>
+                  <h3 className="font-serif text-3xl md:text-4xl text-white mb-4">Community</h3>
+                  <p className="text-white/60 max-w-md leading-relaxed">
+                    Christmas celebrations, family engagement, collective ownership of change.
+                  </p>
+                </div>
               </div>
-            </div>
 
-            {/* About */}
-            <div className="col-span-6 md:col-span-3 lg:col-span-2">
-              <h4 className="text-white font-medium mb-6 text-sm uppercase tracking-widest">About</h4>
-              <div className="space-y-4 text-white/50">
-                <a href="#about" className="block hover:text-white transition-colors">Our Story</a>
-                <a href="#team" className="block hover:text-white transition-colors">Team</a>
-                <a href="#impact" className="block hover:text-white transition-colors">Impact</a>
-                <a href="#" className="block hover:text-white transition-colors">Annual Report</a>
-              </div>
-            </div>
-
-            {/* Contact */}
-            <div className="col-span-12 md:col-span-6 lg:col-span-2">
-              <h4 className="text-white font-medium mb-6 text-sm uppercase tracking-widest">Connect</h4>
-              <div className="space-y-4 text-white/50 mb-8">
-                <a href="mailto:hello@kalemfoundation.org" className="block hover:text-white transition-colors">hello@kalemfoundation.org</a>
-                <p>Bhubaneswar, Odisha, India</p>
-              </div>
-              <div className="flex items-center gap-4">
-                <a href="#" className="w-12 h-12 border border-white/20 rounded-full flex items-center justify-center text-white/50 hover:border-[#C96B4A] hover:text-[#C96B4A] transition-all" aria-label="Instagram">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                  </svg>
-                </a>
-                <a href="#" className="w-12 h-12 border border-white/20 rounded-full flex items-center justify-center text-white/50 hover:border-[#C96B4A] hover:text-[#C96B4A] transition-all" aria-label="LinkedIn">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                  </svg>
-                </a>
-                <a href="#" className="w-12 h-12 border border-white/20 rounded-full flex items-center justify-center text-white/50 hover:border-[#C96B4A] hover:text-[#C96B4A] transition-all" aria-label="Twitter">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                  </svg>
-                </a>
+              {/* Youth Leadership - Large */}
+              <div className="program-card col-span-12 lg:col-span-7 relative h-[500px] md:h-[500px] group overflow-hidden">
+                <Image
+                  src="/images/kalem-10.jpg"
+                  alt="Youth Leadership"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
+                  <span className="text-[#E08A69] text-7xl md:text-9xl font-serif opacity-20 absolute top-0 right-8">04</span>
+                  <p className="text-[#E08A69] text-xs uppercase tracking-[0.3em] mb-3">Program</p>
+                  <h3 className="font-serif text-3xl md:text-5xl text-white mb-4">Youth Leadership</h3>
+                  <p className="text-white/60 max-w-md leading-relaxed">
+                    Training college students to become change-makers. Creating educators who understand ground realities.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Bottom Bar */}
-          <div className="pt-8 border-t border-white/10">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <p className="text-white/30 text-sm">
-                © 2024 Kalinga Empowerment Foundation. All rights reserved.
-              </p>
-              <p className="text-white/20 text-sm">
-                Made with purpose in Odisha, India
+      {/* ============================================
+          IMPACT - DRAMATIC NUMBERS
+          ============================================ */}
+      <section id="impact" className="py-32 md:py-48 bg-[#F8F7F4] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-12 gap-8 items-center">
+            {/* Left - Numbers */}
+            <div className="col-span-12 lg:col-span-6">
+              <p className="text-[#C96B4A] text-xs uppercase tracking-[0.3em] mb-12 reveal-up">Impact</p>
+              
+              <div className="space-y-12">
+                <div className="reveal-up">
+                  <p className="font-serif text-[clamp(5rem,15vw,12rem)] text-[#1C1917] leading-none">
+                    <span className="stat-number" data-target="500">0</span>
+                    <span className="text-[#C96B4A]">+</span>
+                  </p>
+                  <p className="text-[#1C1917]/50 text-sm uppercase tracking-widest mt-2">Students Reached</p>
+                </div>
+                
+                <div className="reveal-up grid grid-cols-2 gap-8">
+                  <div>
+                    <p className="font-serif text-[clamp(3rem,8vw,6rem)] text-[#1C1917] leading-none">
+                      <span className="stat-number" data-target="12">0</span>
+                    </p>
+                    <p className="text-[#1C1917]/50 text-sm uppercase tracking-widest mt-2">Rural Schools</p>
+                  </div>
+                  <div>
+                    <p className="font-serif text-[clamp(3rem,8vw,6rem)] text-[#1C1917] leading-none">
+                      <span className="stat-number" data-target="25">0</span>
+                      <span className="text-[#C96B4A]">+</span>
+                    </p>
+                    <p className="text-[#1C1917]/50 text-sm uppercase tracking-widest mt-2">Volunteers</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right - Image Collage */}
+            <div className="col-span-12 lg:col-span-5 lg:col-start-8">
+              <div className="relative">
+                <div className="gallery-img relative aspect-square overflow-hidden">
+                  <Image
+                    src="/images/kalem-07.jpg"
+                    alt="Team collaboration"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="gallery-img absolute -bottom-12 -left-12 w-2/3 aspect-[4/3] overflow-hidden">
+                  <Image
+                    src="/images/kalem-12.jpg"
+                    alt="Community session"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================
+          GALLERY - MASONRY GRID
+          ============================================ */}
+      <section className="py-32 md:py-48 bg-[#0A0A0A]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <p className="text-[#E08A69] text-xs uppercase tracking-[0.3em] mb-12 reveal-up">Moments</p>
+          
+          {/* Masonry Grid */}
+          <div className="grid grid-cols-12 gap-4">
+            <div className="gallery-img col-span-6 md:col-span-4 aspect-[3/4] relative overflow-hidden">
+              <Image src="/images/kalem-01.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+            </div>
+            <div className="gallery-img col-span-6 md:col-span-4 aspect-square relative overflow-hidden mt-12">
+              <Image src="/images/kalem-03.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+            </div>
+            <div className="gallery-img col-span-12 md:col-span-4 aspect-[4/3] relative overflow-hidden">
+              <Image src="/images/kalem-06.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+            </div>
+            <div className="gallery-img col-span-6 md:col-span-5 aspect-[4/3] relative overflow-hidden">
+              <Image src="/images/kalem-04.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+            </div>
+            <div className="gallery-img col-span-6 md:col-span-3 aspect-[3/4] relative overflow-hidden mt-8">
+              <Image src="/images/kalem-13.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+            </div>
+            <div className="gallery-img col-span-12 md:col-span-4 aspect-square relative overflow-hidden -mt-16">
+              <Image src="/images/kalem-11.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================
+          CTA - BOLD
+          ============================================ */}
+      <section id="connect" className="py-32 md:py-48 bg-[#C96B4A]">
+        <div className="max-w-5xl mx-auto px-6 md:px-12 text-center">
+          <p className="text-white/60 text-xs uppercase tracking-[0.3em] mb-8 reveal-up">Get Involved</p>
+          <h2 className="font-serif text-[clamp(2.5rem,7vw,6rem)] text-white leading-[0.95] mb-12 reveal-up">
+            Change happens<br />together.
+          </h2>
+          <div className="flex flex-col sm:flex-row justify-center gap-4 reveal-up">
+            <a 
+              href="#" 
+              className="bg-white text-[#1C1917] px-10 py-5 text-sm uppercase tracking-widest hover:bg-[#1C1917] hover:text-white transition-all"
+            >
+              Volunteer
+            </a>
+            <a 
+              href="#" 
+              className="border border-white text-white px-10 py-5 text-sm uppercase tracking-widest hover:bg-white hover:text-[#1C1917] transition-all"
+            >
+              Partner
+            </a>
+            <a 
+              href="#" 
+              className="border border-white text-white px-10 py-5 text-sm uppercase tracking-widest hover:bg-white hover:text-[#1C1917] transition-all"
+            >
+              Donate
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================
+          FOOTER - MINIMAL
+          ============================================ */}
+      <footer className="py-20 bg-[#0A0A0A]">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-12 gap-8 mb-16">
+            <div className="col-span-12 md:col-span-4">
+              <p className="font-serif text-4xl text-white mb-4">Kalem</p>
+              <p className="text-white/40 leading-relaxed">
+                Kalinga Empowerment Foundation<br />
+                Bhubaneswar, Odisha, India
               </p>
             </div>
+            <div className="col-span-6 md:col-span-2 md:col-start-7">
+              <p className="text-white text-sm uppercase tracking-widest mb-4">Programs</p>
+              <div className="space-y-3 text-white/40">
+                <a href="#programs" className="block hover:text-white transition-colors">Rural Education</a>
+                <a href="https://whyschool.academy" target="_blank" rel="noopener noreferrer" className="block hover:text-white transition-colors">WhySchool</a>
+                <a href="#programs" className="block hover:text-white transition-colors">Community</a>
+              </div>
+            </div>
+            <div className="col-span-6 md:col-span-2">
+              <p className="text-white text-sm uppercase tracking-widest mb-4">Connect</p>
+              <div className="space-y-3 text-white/40">
+                <a href="#" className="block hover:text-white transition-colors">Instagram</a>
+                <a href="#" className="block hover:text-white transition-colors">LinkedIn</a>
+                <a href="#" className="block hover:text-white transition-colors">Twitter</a>
+              </div>
+            </div>
+            <div className="col-span-12 md:col-span-2">
+              <p className="text-white text-sm uppercase tracking-widest mb-4">Contact</p>
+              <p className="text-white/40">hello@kalemfoundation.org</p>
+            </div>
+          </div>
+          <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-white/30 text-sm">© 2024 Kalem Foundation</p>
+            <p className="text-white/20 text-sm">Made with purpose in Odisha</p>
           </div>
         </div>
       </footer>

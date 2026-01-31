@@ -3,38 +3,33 @@
 @tailwind utilities;
 
 /* ============================================
-   KALEM FOUNDATION - AWWWARDS QUALITY CSS
-   Locomotive / Active Theory / Apple Inspired
+   KALEM FOUNDATION - AWWWARDS QUALITY
+   Dark, Editorial, Cinematic
    ============================================ */
 
 @layer base {
   :root {
-    --cursor-size: 16px;
-    --cursor-size-hover: 80px;
-    --primary: #1C1917;
-    --accent: #C96B4A;
-    --accent-light: #E08A69;
-    --bg: #F8F7F4;
+    --cursor-size: 12px;
+    --cursor-size-hover: 60px;
   }
 
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    scroll-behavior: auto !important;
   }
   
   body {
-    background-color: var(--bg);
-    color: var(--primary);
+    background-color: #0A0A0A;
+    color: #F8F7F4;
     overflow-x: hidden;
   }
   
   ::selection {
-    background-color: var(--accent);
+    background-color: #C96B4A;
     color: white;
   }
   
-  /* Hide scrollbar but keep functionality */
+  /* Hide scrollbar */
   ::-webkit-scrollbar {
     width: 0px;
     background: transparent;
@@ -53,11 +48,13 @@
   position: fixed;
   width: var(--cursor-size);
   height: var(--cursor-size);
-  border: 1px solid var(--primary);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 50%;
   pointer-events: none;
   transform: translate(-50%, -50%);
-  transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              height 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              background-color 0.3s ease;
   z-index: 9999;
   mix-blend-mode: difference;
 }
@@ -65,90 +62,17 @@
 .custom-cursor.hover {
   width: var(--cursor-size-hover);
   height: var(--cursor-size-hover);
-  background-color: white;
-  border-color: white;
-}
-
-.cursor-dot {
-  position: fixed;
-  width: 4px;
-  height: 4px;
-  background-color: var(--primary);
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  z-index: 10000;
-  mix-blend-mode: difference;
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 @media (max-width: 768px) {
-  .custom-cursor,
-  .cursor-dot {
+  .custom-cursor {
     display: none;
   }
 }
 
 /* ============================================
-   LAYOUT UTILITIES
-   ============================================ */
-
-@layer components {
-  .container-wide {
-    max-width: 1600px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-  
-  @media (min-width: 768px) {
-    .container-wide {
-      padding-left: 3rem;
-      padding-right: 3rem;
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    .container-wide {
-      padding-left: 4rem;
-      padding-right: 4rem;
-    }
-  }
-}
-
-/* ============================================
-   MARQUEE ANIMATION
-   ============================================ */
-
-.marquee-container {
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.marquee-content {
-  display: inline-flex;
-  animation: marquee 40s linear infinite;
-}
-
-.marquee-content:hover {
-  animation-play-state: paused;
-}
-
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-marquee {
-  animation: marquee 40s linear infinite;
-}
-
-/* ============================================
-   SPLIT TEXT ANIMATION SUPPORT
+   TYPOGRAPHY ENHANCEMENTS
    ============================================ */
 
 .char,
@@ -165,54 +89,33 @@
   margin-right: 0;
 }
 
-/* ============================================
-   IMAGE REVEAL ANIMATIONS
-   ============================================ */
-
-.img-reveal {
-  position: relative;
-  overflow: hidden;
-}
-
-.img-reveal-overlay {
-  position: absolute;
-  inset: 0;
-  transform-origin: right center;
-  z-index: 10;
-}
-
-.img-reveal img {
-  will-change: transform;
+/* Manifesto word styling */
+.manifesto-word {
+  display: inline;
+  transition: opacity 0.3s ease;
 }
 
 /* ============================================
-   REVEAL TEXT ANIMATIONS
+   IMAGE EFFECTS
    ============================================ */
 
-.reveal-title,
-.reveal-text {
+.gallery-img {
   will-change: transform, opacity;
 }
 
+.gallery-img img {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* ============================================
-   GALLERY SECTION
+   STRIP SECTION
    ============================================ */
 
-.gallery-section {
-  position: relative;
-  overflow: hidden;
-}
-
-.gallery-track {
-  will-change: transform;
-}
-
-.gallery-item {
-  flex-shrink: 0;
+.strip-section {
   position: relative;
 }
 
-.gallery-item img {
+.strip-track {
   will-change: transform;
 }
 
@@ -224,95 +127,20 @@
   will-change: transform, opacity;
 }
 
+.program-card img {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 /* ============================================
-   COUNTERS
+   STAT NUMBERS
    ============================================ */
 
-.counter {
+.stat-number {
   font-variant-numeric: tabular-nums;
 }
 
 /* ============================================
-   LINE REVEALS
-   ============================================ */
-
-.line-reveal {
-  will-change: transform;
-  transform-origin: left center;
-}
-
-/* ============================================
-   NAVIGATION
-   ============================================ */
-
-nav {
-  transition: background-color 0.5s ease, backdrop-filter 0.5s ease;
-}
-
-nav.scrolled {
-  background-color: rgba(248, 247, 244, 0.95);
-  backdrop-filter: blur(20px);
-}
-
-/* ============================================
-   BUTTONS
-   ============================================ */
-
-a[class*="inline-flex"],
-button {
-  position: relative;
-  overflow: hidden;
-}
-
-a[class*="inline-flex"]::before,
-button::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  transform: translateX(-101%);
-  transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
-}
-
-/* ============================================
-   SCROLL INDICATOR
-   ============================================ */
-
-@keyframes scroll-pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  50% {
-    opacity: 0.3;
-    transform: translateY(8px);
-  }
-}
-
-/* ============================================
-   GRAIN TEXTURE OVERLAY
-   ============================================ */
-
-.grain-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9998;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-}
-
-/* ============================================
-   RESPONSIVE TYPOGRAPHY
-   ============================================ */
-
-@media (max-width: 640px) {
-  .hero-title {
-    font-size: clamp(2.5rem, 12vw, 4rem) !important;
-  }
-}
-
-/* ============================================
-   SMOOTH SCROLL OVERRIDES
+   SMOOTH SCROLL (LENIS)
    ============================================ */
 
 html.lenis {
@@ -323,33 +151,37 @@ html.lenis {
   scroll-behavior: auto;
 }
 
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
 .lenis.lenis-stopped {
   overflow: hidden;
 }
 
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
-}
-
 /* ============================================
-   UTILITY CLASSES
+   ANIMATIONS
    ============================================ */
 
-.text-balance {
-  text-wrap: balance;
+.reveal-up {
+  will-change: transform, opacity;
 }
 
-/* Pin spacer fix for GSAP */
-.pin-spacer {
-  flex-shrink: 0 !important;
+.parallax-text {
+  will-change: transform;
 }
 
 /* ============================================
-   MEDIA QUERIES FOR PERFORMANCE
+   GRAIN TEXTURE
+   ============================================ */
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* ============================================
+   REDUCED MOTION
    ============================================ */
 
 @media (prefers-reduced-motion: reduce) {
@@ -359,11 +191,6 @@ html.lenis {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  
-  .marquee-content {
-    animation: none;
   }
 }
 
@@ -372,11 +199,7 @@ html.lenis {
    ============================================ */
 
 @media (hover: hover) {
-  .program-card:hover img {
-    transform: scale(1.05);
-  }
-  
-  .gallery-item:hover img {
-    transform: scale(1.05);
+  a:hover {
+    cursor: pointer;
   }
 }
