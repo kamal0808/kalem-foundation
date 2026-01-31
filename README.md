@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kalem Foundation (Kalinga Empowerment Foundation)
 
-## Getting Started
+Official website for the Kalem Foundation - empowering communities through education, healthcare, and sustainable development in Odisha, India.
 
-First, run the development server:
+## 🌟 About
+
+Kalem Foundation (Kalinga Empowerment Foundation) is dedicated to:
+- **Education**: Supporting quality education for underprivileged children
+- **Healthcare**: Providing access to essential medical services
+- **Community Development**: Sustainable initiatives for rural empowerment
+- **Women Empowerment**: Skills training and economic opportunities
+
+## 🚀 Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Styling**: Tailwind CSS
+- **Animations**: GSAP (GreenSock Animation Platform)
+- **Scroll**: Lenis (Smooth Scroll)
+- **Font**: Geist
+- **Deploy**: Vercel
+
+## ✨ Features
+
+- Awwwards-quality design and animations
+- Smooth scroll experience
+- Responsive design
+- Custom cursor effects
+- Image reveal animations
+- Magnetic button effects
+
+## 📦 Installation
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Deploy on Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/kamal0808/kalem-foundation)
 
-## Learn More
+## 📸 Preview
 
-To learn more about Next.js, take a look at the following resources:
+Coming soon...
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📄 License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+MIT License - Feel free to use for inspiration.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built with ❤️ for Kalem Foundation
