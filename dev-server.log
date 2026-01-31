@@ -21,3 +21,4 @@
  ✓ Compiled /_not-found/page in 1331ms
  GET /.well-known/appspecific/com.chrome.devtools.json 404 in 76ms
  GET /favicon.ico 200 in 779ms
+ ✓ Compiled in 188ms

@@ -323,7 +323,8 @@ export default function Home() {
             fill
             className="object-cover"
             priority
-            quality={100}
+            sizes="100vw"
+            quality={85}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black" />
         </div>
@@ -419,6 +420,8 @@ export default function Home() {
                   alt={img.caption}
                   fill
                   className="object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-700"
+                  sizes="(max-width: 768px) 80vw, 45vw"
+                  loading="lazy"
                 />
                 <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity">
                   <p className="text-white text-xs uppercase tracking-widest">{img.caption}</p>
@@ -443,6 +446,8 @@ export default function Home() {
                   alt="Ritik Prajjwal Sahu, Founder"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  loading="lazy"
                 />
               </div>
               <div className="mt-6 flex items-center gap-4">
@@ -510,6 +515,8 @@ export default function Home() {
                   alt="Rural Education"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 58vw"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
@@ -529,6 +536,8 @@ export default function Home() {
                   alt="WhySchool"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 42vw"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
@@ -562,6 +571,8 @@ export default function Home() {
                   alt="Community Work"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 42vw"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
@@ -581,6 +592,8 @@ export default function Home() {
                   alt="Youth Leadership"
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 58vw"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
@@ -643,6 +656,8 @@ export default function Home() {
                     alt="Team collaboration"
                     fill
                     className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    loading="lazy"
                   />
                 </div>
                 <div className="gallery-img absolute -bottom-12 -left-12 w-2/3 aspect-[4/3] overflow-hidden">
@@ -651,6 +666,8 @@ export default function Home() {
                     alt="Community session"
                     fill
                     className="object-cover"
+                    sizes="(max-width: 1024px) 66vw, 27vw"
+                    loading="lazy"
                   />
                 </div>
               </div>
@@ -669,22 +686,22 @@ export default function Home() {
           {/* Masonry Grid */}
           <div className="grid grid-cols-12 gap-4">
             <div className="gallery-img col-span-6 md:col-span-4 aspect-[3/4] relative overflow-hidden">
-              <Image src="/images/kalem-01.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+              <Image src="/images/kalem-01.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" sizes="(max-width: 768px) 50vw, 33vw" loading="lazy" />
             </div>
             <div className="gallery-img col-span-6 md:col-span-4 aspect-square relative overflow-hidden mt-12">
-              <Image src="/images/kalem-03.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+              <Image src="/images/kalem-03.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" sizes="(max-width: 768px) 50vw, 33vw" loading="lazy" />
             </div>
             <div className="gallery-img col-span-12 md:col-span-4 aspect-[4/3] relative overflow-hidden">
-              <Image src="/images/kalem-06.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+              <Image src="/images/kalem-06.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
             </div>
             <div className="gallery-img col-span-6 md:col-span-5 aspect-[4/3] relative overflow-hidden">
-              <Image src="/images/kalem-04.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+              <Image src="/images/kalem-04.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" sizes="(max-width: 768px) 50vw, 42vw" loading="lazy" />
             </div>
             <div className="gallery-img col-span-6 md:col-span-3 aspect-[3/4] relative overflow-hidden mt-8">
-              <Image src="/images/kalem-13.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+              <Image src="/images/kalem-13.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" sizes="(max-width: 768px) 50vw, 25vw" loading="lazy" />
             </div>
             <div className="gallery-img col-span-12 md:col-span-4 aspect-square relative overflow-hidden -mt-16">
-              <Image src="/images/kalem-11.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" />
+              <Image src="/images/kalem-11.jpg" alt="Kalem moment" fill className="object-cover hover:scale-105 transition-transform duration-700" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
             </div>
           </div>
         </div>
